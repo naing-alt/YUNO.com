@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YUNO | Create Account</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            color: #111;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 7px;
+            color: white;
+            text-decoration: none;
+        }
+
+        header a.login-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .container {
+            min-height: calc(100vh - 75px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .register-box {
+            background: white;
+            width: 100%;
+            max-width: 520px;
+            padding: 45px;
+            border-radius: 15px;
+            box-shadow: 0 8px 35px rgba(0,0,0,0.07);
+        }
+
+        .register-box h1 {
+            text-align: center;
+            font-size: 32px;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #111;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        button:disabled {
+            background: #777;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: #d00000;
+        }
+
+        .bottom-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .bottom-text a {
+            color: #111;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        @media (max-width: 500px) {
+            .register-box {
+                padding: 30px 22px;
+            }
+
+            .logo {
+                font-size: 25px;
+            }
+
+            .register-box h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="logo">YUNO</a>
+        <a href="login.html" class="login-link">LOGIN</a>
+    </header>
+
+    <main class="container">
+
+        <section class="register-box">
+
+            <h1>YUNO</h1>
+            <p class="subtitle">CREATE YOUR ACCOUNT</p>
+
+            <form id="registerForm">
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        maxlength="100"
+                        placeholder="Enter username"
+                        autocomplete="username"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        maxlength="150"
+                        placeholder="Enter email address">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        maxlength="30"
+                        placeholder="Enter phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        minlength="12"
+                        placeholder="Minimum 12 characters"
+                        autocomplete="new-password"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        minlength="12"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                        required>
+                </div>
+
+                <button type="submit" id="registerButton">
+                    CREATE ACCOUNT
+                </button>
+
+                <p id="message" class="message"></p>
+
+            </form>
+
+            <p class="bottom-text">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </p>
+
+        </section>
+
+    </main>
+
+    <script>
+        const registerForm =
+            document.getElementById("registerForm");
+
+        const message =
+            document.getElementById("message");
+
+        const registerButton =
+            document.getElementById("registerButton");
+
+        registerForm.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const username =
+                document.getElementById("username").value.trim();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const phone =
+                document.getElementById("phone").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+            message.textContent = "";
+            message.className = "message";
+
+            if (!email && !phone) {
+                message.textContent =
+                    "Please enter an email address or phone number.";
+
+                message.classList.add("error");
+                return;
+            }
+
+            if (password.length < 12) {
+                message.textContent =
+                    "Password must contain at least 12 characters.";
+
+                message.classList.add("error");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                message.textContent =
+                    "Passwords do not match.";
+
+                message.classList.add("error");
+                return;
+            }
+
+            registerButton.disabled = true;
+            registerButton.textContent = "CREATING ACCOUNT...";
+
+            try {
+                const response = await fetch(
+                    "/api/customers/register",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            username: username,
+                            email: email || null,
+                            phone: phone || null,
+                            password: password
+                        })
+                    }
+                );
+
+                const responseText = await response.text();
+
+let result;
+
+try {
+    result = responseText
+        ? JSON.parse(responseText)
+        : null;
+} catch {
+    result = responseText;
+}
+
+if (!response.ok) {
+    throw new Error(
+        typeof result === "string"
+            ? result
+            : result?.message || "Registration failed."
+    );
+}
+
+                if (!response.ok) {
+                    throw new Error(
+                        typeof result === "string"
+                            ? result
+                            : result.message || "Registration failed."
+                    );
+                }
+
+                message.textContent =
+                    "Account created successfully! Redirecting to login...";
+
+                message.classList.add("success");
+
+                registerForm.reset();
+
+                setTimeout(function() {
+                    window.location.href = "login.html";
+                }, 1800);
+
+            } catch (error) {
+
+                message.textContent = error.message;
+                message.classList.add("error");
+
+            } finally {
+
+                registerButton.disabled = false;
+                registerButton.textContent = "CREATE ACCOUNT";
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,829 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>YUNO | My Account</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            color: #111;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 7px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .header-right a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .logout-button {
+            background: white;
+            color: #111;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #777;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+
+        .profile-card h2 {
+            margin-bottom: 25px;
+            font-size: 23px;
+        }
+
+        .profile-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-item span {
+            display: block;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .profile-item strong {
+            font-size: 17px;
+            overflow-wrap: anywhere;
+        }
+
+        .status {
+            color: green;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #111;
+        }
+
+        .action-button {
+            background: #111;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background: #444;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .success {
+            color: #16803b;
+        }
+
+        .error {
+            color: #d00000;
+        }
+
+        .password-note {
+            color: #777;
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        @media(max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .logo {
+                font-size: 25px;
+            }
+
+            .header-right {
+                gap: 12px;
+            }
+
+            .header-right a {
+                display: none;
+            }
+
+            .container {
+                margin-top: 30px;
+            }
+
+            .profile-card {
+                padding: 25px 20px;
+            }
+
+            .welcome h1 {
+                font-size: 26px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <a href="index.html" class="logo">YUNO</a>
+
+    <div class="header-right">
+
+        <a href="index.html">SHOP</a>
+
+        <a href="my-orders.html">MY ORDERS</a>
+
+        <button class="logout-button" id="logoutButton">
+            LOGOUT
+        </button>
+
+    </div>
+
+</header>
+
+<main class="container">
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+        <h1>MY ACCOUNT</h1>
+        <p>Welcome to your YUNO customer account.</p>
+    </section>
+
+    <!-- PERSONAL INFORMATION -->
+
+    <section class="profile-card">
+
+        <h2>Personal Information</h2>
+
+        <div class="profile-item">
+            <span>Customer ID</span>
+            <strong id="customerId">Loading...</strong>
+        </div>
+
+        <div class="profile-item">
+            <span>Username</span>
+            <strong id="username">Loading...</strong>
+        </div>
+
+        <div class="profile-item">
+            <span>Email Address</span>
+            <strong id="email">Loading...</strong>
+        </div>
+
+        <div class="profile-item">
+            <span>Phone Number</span>
+            <strong id="phone">Loading...</strong>
+        </div>
+
+        <div class="profile-item">
+            <span>Account Status</span>
+            <strong id="status">Loading...</strong>
+        </div>
+
+        <div class="profile-item">
+            <span>Created At</span>
+            <strong id="createdAt">Loading...</strong>
+        </div>
+
+        <p id="loadMessage" class="message error" role="status"></p>
+
+    </section>
+
+    <!-- EDIT PROFILE -->
+
+    <section class="profile-card">
+
+        <h2>Edit Profile</h2>
+
+        <form id="profileForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label for="editEmail">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="editEmail"
+                        maxlength="150"
+                        placeholder="Enter your email">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="editPhone">Phone Number</label>
+
+                    <input
+                        type="tel"
+                        id="editPhone"
+                        maxlength="30"
+                        placeholder="Enter your phone number">
+
+                </div>
+
+            </div>
+
+            <button
+                type="submit"
+                class="action-button"
+                id="saveProfileButton">
+
+                SAVE CHANGES
+
+            </button>
+
+            <p id="profileMessage" class="message" role="status"></p>
+
+        </form>
+
+    </section>
+
+    <!-- CHANGE PASSWORD -->
+
+    <section class="profile-card">
+
+        <h2>Change Password</h2>
+
+        <p class="password-note">
+            Your new password must contain at least 12 characters.
+        </p>
+
+        <form id="passwordForm">
+
+            <div class="form-group">
+
+                <label for="currentPassword">
+                    Current Password
+                </label>
+
+                <input
+                    type="password"
+                    id="currentPassword"
+                    required
+                    autocomplete="current-password">
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="newPassword">
+                    New Password
+                </label>
+
+                <input
+                    type="password"
+                    id="newPassword"
+                    minlength="12"
+                    required
+                    autocomplete="new-password">
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    Confirm New Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    minlength="12"
+                    required
+                    autocomplete="new-password">
+
+            </div>
+
+            <button
+                type="submit"
+                class="action-button"
+                id="changePasswordButton">
+
+                CHANGE PASSWORD
+
+            </button>
+
+            <p id="passwordMessage" class="message" role="status"></p>
+
+        </form>
+
+    </section>
+
+</main>
+
+<footer>
+    © 2026 YUNO Clothing. All Rights Reserved.
+</footer>
+
+<script>
+
+    let csrfToken = "";
+
+    // =====================================
+    // GET CUSTOMER CSRF TOKEN
+    // =====================================
+
+    async function getCsrfToken() {
+
+        const response = await fetch(
+            "/api/csrf/customer-token",
+            {
+                method: "GET",
+                credentials: "same-origin",
+                cache: "no-store"
+            }
+        );
+
+        if (!response.ok) {
+
+            if (response.status === 401 ||
+                response.status === 403) {
+
+                window.location.replace("/login.html");
+                throw new Error("Please log in again.");
+            }
+
+            throw new Error(
+                "Unable to get customer security token."
+            );
+        }
+
+        const data = await response.json();
+
+        if (!data.token) {
+            throw new Error(
+                "Customer security token is missing."
+            );
+        }
+
+        csrfToken = data.token;
+
+        return csrfToken;
+    }
+
+
+    // =====================================
+    // DISPLAY MESSAGE
+    // =====================================
+
+    function showMessage(elementId, message, success) {
+
+        const element = document.getElementById(elementId);
+
+        element.textContent = message;
+
+        element.className = success
+            ? "message success"
+            : "message error";
+    }
+
+
+    // =====================================
+    // LOAD CUSTOMER PROFILE
+    // =====================================
+
+    async function loadProfile() {
+
+        const response = await fetch(
+            "/api/customers/profile",
+            {
+                method: "GET",
+                credentials: "same-origin",
+                cache: "no-store"
+            }
+        );
+
+        if (response.status === 401 ||
+            response.status === 403) {
+
+            window.location.replace("/login.html");
+            return false;
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                "Unable to load customer profile."
+            );
+        }
+
+        const data = await response.json();
+
+        document.getElementById("customerId").textContent =
+            data.customerId ?? "-";
+
+        document.getElementById("username").textContent =
+            data.username ?? "-";
+
+        document.getElementById("email").textContent =
+            data.email ?? "-";
+
+        document.getElementById("phone").textContent =
+            data.phone ?? "-";
+
+        document.getElementById("editEmail").value =
+            data.email ?? "";
+
+        document.getElementById("editPhone").value =
+            data.phone ?? "";
+
+        const statusElement =
+            document.getElementById("status");
+
+        statusElement.textContent =
+            data.isActive ? "Active" : "Inactive";
+
+        statusElement.className =
+            data.isActive ? "status" : "";
+
+        document.getElementById("createdAt").textContent =
+            data.createdAt
+                ? new Date(data.createdAt).toLocaleString()
+                : "-";
+
+        return true;
+    }
+
+
+    // =====================================
+    // UPDATE CUSTOMER PROFILE
+    // =====================================
+
+    document.getElementById("profileForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const button =
+                document.getElementById("saveProfileButton");
+
+            const email =
+                document.getElementById("editEmail").value.trim();
+
+            const phone =
+                document.getElementById("editPhone").value.trim();
+
+            if (!email && !phone) {
+
+                showMessage(
+                    "profileMessage",
+                    "Please provide an email or phone number.",
+                    false
+                );
+
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "SAVING...";
+
+            try {
+
+                const token = await getCsrfToken();
+
+                const response = await fetch(
+                    "/api/customers/profile",
+                    {
+                        method: "PUT",
+                        credentials: "same-origin",
+
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": token
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            phone: phone
+                        })
+                    }
+                );
+
+                const message = await response.text();
+
+                if (!response.ok) {
+                    throw new Error(
+                        message || "Profile update failed."
+                    );
+                }
+
+                showMessage(
+                    "profileMessage",
+                    "Profile updated successfully.",
+                    true
+                );
+
+                await loadProfile();
+
+            } catch (error) {
+
+                showMessage(
+                    "profileMessage",
+                    error.message,
+                    false
+                );
+
+            } finally {
+
+                button.disabled = false;
+                button.textContent = "SAVE CHANGES";
+
+            }
+        });
+
+
+    // =====================================
+    // CHANGE PASSWORD
+    // =====================================
+
+    document.getElementById("passwordForm")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const button =
+                document.getElementById("changePasswordButton");
+
+            const currentPassword =
+                document.getElementById("currentPassword").value;
+
+            const newPassword =
+                document.getElementById("newPassword").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+            if (newPassword.length < 12) {
+
+                showMessage(
+                    "passwordMessage",
+                    "Password must contain at least 12 characters.",
+                    false
+                );
+
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+
+                showMessage(
+                    "passwordMessage",
+                    "New passwords do not match.",
+                    false
+                );
+
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "CHANGING...";
+
+            try {
+
+                const token = await getCsrfToken();
+
+                const response = await fetch(
+                    "/api/customers/change-password",
+                    {
+                        method: "PUT",
+                        credentials: "same-origin",
+
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": token
+                        },
+
+                        body: JSON.stringify({
+                            currentPassword: currentPassword,
+                            newPassword: newPassword
+                        })
+                    }
+                );
+
+                const message = await response.text();
+
+                if (!response.ok) {
+                    throw new Error(
+                        message || "Password change failed."
+                    );
+                }
+
+                showMessage(
+                    "passwordMessage",
+                    "Password changed successfully.",
+                    true
+                );
+
+                document.getElementById("passwordForm").reset();
+
+            } catch (error) {
+
+                showMessage(
+                    "passwordMessage",
+                    error.message,
+                    false
+                );
+
+            } finally {
+
+                button.disabled = false;
+                button.textContent = "CHANGE PASSWORD";
+
+            }
+        });
+
+
+    // =====================================
+    // CUSTOMER LOGOUT
+    // =====================================
+
+    document.getElementById("logoutButton")
+        .addEventListener("click", async function() {
+
+            const confirmed = confirm(
+                "Are you sure you want to log out?"
+            );
+
+            if (!confirmed) return;
+
+            const button = this;
+
+            button.disabled = true;
+            button.textContent = "LOGGING OUT...";
+
+            try {
+
+                const token = await getCsrfToken();
+
+                const response = await fetch(
+                    "/api/customers/logout",
+                    {
+                        method: "POST",
+                        credentials: "same-origin",
+
+                        headers: {
+                            "X-CSRF-TOKEN": token
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+
+                    const message = await response.text();
+
+                    throw new Error(
+                        message || "Logout failed."
+                    );
+                }
+
+                window.location.replace("/login.html");
+
+            } catch (error) {
+
+                document.getElementById("loadMessage").textContent =
+                    error.message;
+
+                button.disabled = false;
+                button.textContent = "LOGOUT";
+
+            }
+        });
+
+
+    // =====================================
+    // INITIALISE PAGE
+    // =====================================
+
+    async function initialisePage() {
+
+        try {
+
+            const loaded = await loadProfile();
+
+            if (!loaded) return;
+
+            await getCsrfToken();
+
+        } catch (error) {
+
+            document.getElementById("loadMessage").textContent =
+                error.message;
+
+        }
+    }
+
+    initialisePage();
+
+</script>
+
+</body>
+</html>

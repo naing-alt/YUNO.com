@@ -1,0 +1,890 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>YUNO | Shopping Cart</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        body {
+            background: #f4f4f4;
+            color: #111;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #111;
+            color: white;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 35px;
+            font-weight: bold;
+            letter-spacing: 7px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .header-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .header-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+            min-height: 55vh;
+        }
+
+        .page-title {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 35px;
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
+            align-items: start;
+        }
+
+        /* CART ITEMS */
+
+        .cart-section,
+        .summary-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-image {
+            width: 120px;
+            height: 140px;
+            object-fit: cover;
+            background: #eee;
+            border-radius: 8px;
+        }
+
+        .product-name {
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-info {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .product-price {
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* QUANTITY */
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .quantity-control button {
+            background: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .quantity-control button:hover {
+            background: #eee;
+        }
+
+        .quantity-control button:disabled {
+            cursor: not-allowed;
+            opacity: 0.4;
+        }
+
+        .quantity-value {
+            width: 35px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #d22;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .remove-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* SUMMARY */
+
+        .summary-section {
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 20px 0;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .summary-total {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            color: #111;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 16px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            background: #333;
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .continue-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #111;
+            text-decoration: underline;
+        }
+
+        /* EMPTY CART */
+
+        .empty-cart {
+            background: white;
+            text-align: center;
+            padding: 70px 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .empty-cart h2 {
+            margin-bottom: 15px;
+            font-size: 25px;
+        }
+
+        .empty-cart p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .shop-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background: #111;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .shop-btn:hover {
+            background: #333;
+        }
+
+        /* MESSAGES */
+
+        .message {
+            padding: 14px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .success {
+            background: #e6f7e9;
+            color: #16852d;
+        }
+
+        .error {
+            background: #ffe8e8;
+            color: #c22;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 60px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-section {
+                position: static;
+            }
+        }
+
+        @media (max-width: 500px) {
+            header {
+                padding: 18px 15px;
+            }
+
+            .logo {
+                font-size: 25px;
+                letter-spacing: 4px;
+            }
+
+            .header-links {
+                gap: 12px;
+            }
+
+            .header-links a {
+                font-size: 12px;
+            }
+
+            .container {
+                margin: 30px auto;
+                padding: 0 12px;
+            }
+
+            .page-title {
+                font-size: 27px;
+            }
+
+            .cart-section,
+            .summary-section {
+                padding: 16px;
+            }
+
+            .cart-item {
+                grid-template-columns: 90px 1fr;
+                gap: 12px;
+            }
+
+            .product-image {
+                width: 90px;
+                height: 115px;
+            }
+
+            .product-name {
+                font-size: 16px;
+            }
+
+            .empty-cart {
+                padding: 50px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+        <a href="index.html" class="logo">YUNO</a>
+
+        <div class="header-links">
+            <a href="index.html">SHOP</a>
+            <a href="profile.html">MY ACCOUNT</a>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <h1 class="page-title">SHOPPING CART</h1>
+
+        <p class="subtitle">
+            Review your selected products before checkout.
+        </p>
+
+        <div id="message" class="message"></div>
+
+        <!-- LOADING -->
+
+        <div id="loading" class="loading">
+            Loading your shopping cart...
+        </div>
+
+        <!-- EMPTY CART -->
+
+        <div id="emptyCart" class="empty-cart" hidden>
+
+            <h2>Your Cart Is Empty</h2>
+
+            <p>
+                You haven't added any products to your cart yet.
+            </p>
+
+            <a href="index.html" class="shop-btn">
+                CONTINUE SHOPPING
+            </a>
+
+        </div>
+
+        <!-- CART CONTENT -->
+
+        <div id="cartContent" class="cart-layout" hidden>
+
+            <!-- CART ITEMS -->
+
+            <section class="cart-section">
+
+                <h2 class="section-title">
+                    Your Products
+                </h2>
+
+                <div id="cartItems"></div>
+
+            </section>
+
+            <!-- ORDER SUMMARY -->
+
+            <section class="summary-section">
+
+                <h2 class="section-title">
+                    Order Summary
+                </h2>
+
+                <div class="summary-row">
+                    <span>Total Products</span>
+                    <strong id="totalItems">0</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Delivery Fee</span>
+                    <strong>Calculated at checkout</strong>
+                </div>
+
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span id="totalAmount">0 MMK</span>
+                </div>
+
+                <button
+                    type="button"
+                    class="checkout-btn"
+                    onclick="startCheckout()">
+
+                    PROCEED TO CHECKOUT
+
+                </button>
+
+                <a href="index.html" class="continue-btn">
+                    Continue Shopping
+                </a>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <p>© 2026 YUNO Clothing. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+
+        const API_URL = "/api/cart";
+
+        // =====================================
+        // FORMAT MMK
+        // =====================================
+
+        function formatMMK(amount) {
+            return Number(amount).toLocaleString("en-US") + " MMK";
+        }
+
+        // =====================================
+        // SAFE HTML TEXT
+        // =====================================
+
+        function escapeHTML(value) {
+
+            return String(value ?? "").replace(/[&<>"']/g, function(char) {
+
+                return {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;"
+                }[char];
+
+            });
+        }
+
+        // =====================================
+        // MESSAGE
+        // =====================================
+
+        function showMessage(text, type) {
+
+            const message = document.getElementById("message");
+
+            message.textContent = text;
+            message.className = "message " + type;
+            message.style.display = "block";
+        }
+
+        // =====================================
+        // GET CUSTOMER CSRF TOKEN
+        // =====================================
+
+        async function getCsrfToken() {
+
+            const response = await fetch(
+                "/api/csrf/customer-token",
+                {
+                    method: "GET",
+                    credentials: "same-origin",
+                    cache: "no-store"
+                }
+            );
+
+            if (response.status === 401) {
+
+                window.location.replace("/login.html");
+
+                throw new Error("Please login to continue.");
+            }
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to get security token. Please try again."
+                );
+            }
+
+            const data = await response.json();
+
+            return data.token;
+        }
+
+        // =====================================
+        // API REQUEST
+        // =====================================
+
+        async function apiRequest(url, options = {}) {
+
+            const method = (options.method || "GET").toUpperCase();
+
+            const headers = {
+                ...(options.headers || {})
+            };
+
+            if (method !== "GET" && method !== "HEAD") {
+
+                headers["Content-Type"] = "application/json";
+
+                const token = await getCsrfToken();
+
+                headers["X-CSRF-TOKEN"] = token;
+            }
+
+            const response = await fetch(url, {
+
+                ...options,
+
+                method: method,
+
+                credentials: "same-origin",
+
+                headers: headers
+
+            });
+
+            if (response.status === 401) {
+
+                window.location.replace("/login.html");
+
+                throw new Error("Please login to continue.");
+            }
+
+            const responseText = await response.text();
+
+            let data = null;
+
+            try {
+
+                data = responseText
+                    ? JSON.parse(responseText)
+                    : null;
+
+            }
+            catch {
+
+                data = responseText;
+            }
+
+            if (!response.ok) {
+
+                const errorMessage =
+                    typeof data === "string"
+                        ? data
+                        : data?.message || "Something went wrong.";
+
+                throw new Error(errorMessage);
+            }
+
+            return data;
+        }
+
+        // =====================================
+        // LOAD CART
+        // =====================================
+
+        async function loadCart() {
+
+            document.getElementById("loading").hidden = false;
+
+            document.getElementById("cartContent").hidden = true;
+
+            document.getElementById("emptyCart").hidden = true;
+
+            try {
+
+                const cart = await apiRequest(API_URL);
+
+                document.getElementById("loading").hidden = true;
+
+                if (!cart.items || cart.items.length === 0) {
+
+                    document.getElementById("emptyCart").hidden = false;
+
+                    return;
+                }
+
+                document.getElementById("cartContent").hidden = false;
+
+                renderCart(cart);
+
+            }
+            catch (error) {
+
+                document.getElementById("loading").hidden = true;
+
+                showMessage(error.message, "error");
+            }
+        }
+
+        // =====================================
+        // DISPLAY CART
+        // =====================================
+
+        function renderCart(cart) {
+
+            const cartItems = document.getElementById("cartItems");
+
+            cartItems.innerHTML = "";
+
+            cart.items.forEach(item => {
+
+                const image = item.imageUrl
+                    ? escapeHTML(item.imageUrl)
+                    : "";
+
+                const imageHTML = image
+                    ? `<img class="product-image"
+                         src="${image}"
+                         alt="${escapeHTML(item.productName)}"
+                         onerror="this.onerror=null;this.style.display='none';">`
+
+                    : `<div class="product-image"
+                         style="display:flex;align-items:center;justify-content:center;color:#888;font-size:12px;">
+                         NO IMAGE
+                       </div>`;
+
+                const productHTML = `
+
+                    <article class="cart-item">
+
+                        ${imageHTML}
+
+                        <div>
+
+                            <h3 class="product-name">
+                                ${escapeHTML(item.productName)}
+                            </h3>
+
+                            <div class="product-info">
+
+                                Size: ${escapeHTML(item.size || "N/A")}<br>
+
+                                Color: ${escapeHTML(item.color || "N/A")}<br>
+
+                                Available Stock: ${item.stockQuantity}
+
+                            </div>
+
+                            <p class="product-price">
+                                ${formatMMK(item.price)}
+                            </p>
+
+                            <div class="item-bottom">
+
+                                <div class="quantity-control">
+
+                                    <button
+                                        type="button"
+                                        onclick="changeQuantity(${item.cartItemId}, ${item.quantity - 1})"
+                                        ${item.quantity <= 1 ? "disabled" : ""}>
+
+                                        −
+
+                                    </button>
+
+                                    <span class="quantity-value">
+                                        ${item.quantity}
+                                    </span>
+
+                                    <button
+                                        type="button"
+                                        onclick="changeQuantity(${item.cartItemId}, ${item.quantity + 1})"
+                                        ${item.quantity >= item.stockQuantity ? "disabled" : ""}>
+
+                                        +
+
+                                    </button>
+
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="remove-btn"
+                                    onclick="removeItem(${item.cartItemId})">
+
+                                    Remove
+
+                                </button>
+
+                            </div>
+
+                            <p class="product-price">
+                                Subtotal: ${formatMMK(item.subtotal)}
+                            </p>
+
+                        </div>
+
+                    </article>
+
+                `;
+
+                cartItems.insertAdjacentHTML("beforeend", productHTML);
+
+            });
+
+            // Total product quantity
+
+            const totalQuantity = cart.items.reduce(
+                (total, item) => total + Number(item.quantity),
+                0
+            );
+
+            document.getElementById("totalItems").textContent =
+                totalQuantity;
+
+            document.getElementById("totalAmount").textContent =
+                formatMMK(cart.totalAmount);
+        }
+
+        // =====================================
+        // CHANGE QUANTITY
+        // =====================================
+
+        async function changeQuantity(cartItemId, quantity) {
+
+            if (quantity < 1) return;
+
+            try {
+
+                await apiRequest(
+
+                    `${API_URL}/${cartItemId}`,
+
+                    {
+                        method: "PUT",
+
+                        body: JSON.stringify({
+                            quantity: quantity
+                        })
+                    }
+
+                );
+
+                showMessage(
+                    "Cart quantity updated successfully.",
+                    "success"
+                );
+
+                await loadCart();
+
+            }
+            catch (error) {
+
+                showMessage(error.message, "error");
+            }
+        }
+
+        // =====================================
+        // REMOVE ITEM
+        // =====================================
+
+        async function removeItem(cartItemId) {
+
+            const confirmed = confirm(
+                "Are you sure you want to remove this product?"
+            );
+
+            if (!confirmed) return;
+
+            try {
+
+                await apiRequest(
+
+                    `${API_URL}/${cartItemId}`,
+
+                    {
+                        method: "DELETE"
+                    }
+
+                );
+
+                showMessage(
+                    "Product removed from cart successfully.",
+                    "success"
+                );
+
+                await loadCart();
+
+            }
+            catch (error) {
+
+                showMessage(error.message, "error");
+            }
+        }
+
+        // =====================================
+        // CHECKOUT PLACEHOLDER
+        // =====================================
+
+        function startCheckout() {
+
+            window.location.href = "/checkout.html";
+
+        }
+
+        // =====================================
+        // INITIAL LOAD
+        // =====================================
+
+        loadCart();
+
+    </script>
+
+</body>
+</html>
